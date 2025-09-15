@@ -1,3 +1,16 @@
+# Banded Penguin Identification Project 
+
+This Document summarises the workflow and scripts of the python project behind the research and application of my (Theo McLaurin's) MRes masters research project.
+
+The Project aimed to build and train a computer vision embedding model that could
+identify individual Banded Penguins (Spheniscus) from manual photographs and camera traps.
+I aimed to build a model that could work with varation across age, pose and image quality.
+Testing shows that the final model weights were capable of solving the open-set 
+recognition problem commonly dealt with by conservation technologists. 
+
+
+![IMG_1953_box2](https://github.com/user-attachments/assets/8457a3e2-0264-4859-9d71-6a8dd43b2956)
+
 Glossary
 Main Scripts
 
