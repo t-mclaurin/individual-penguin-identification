@@ -6,9 +6,9 @@ from tkinter import Tk, Canvas, Button, NW, mainloop, PhotoImage, messagebox
 from PIL import Image, ImageTk
 
 # ---- Configuration ----
-SOURCE_DIR = '/Users/theomclaurin/Desktop/Penguin_Photos/fix/tofix'
-DEST_DIR = '/Users/theomclaurin/Desktop/Penguin_Photos/fix/fixed'
-PROGRESS_FILE = '/Users/theomclaurin/Desktop/Penguin_Photos/fix/progress.csv'
+SOURCE_DIR = 'Penguin_Photos/tofix'
+DEST_DIR = 'Penguin_Photos/fixed'
+PROGRESS_FILE = 'Penguin_Photos/progress.csv'
 OCCLUDER_SIZE = 60  # default px size, change as needed
 LARGE_OCCLUDER_SIZE = 90 # for large occluders
 SUPER_OCCLUDER_SIZE = 120 # for super large occluders
