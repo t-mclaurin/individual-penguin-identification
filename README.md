@@ -12,16 +12,19 @@ recognition problem commonly dealt with by conservation technologists.
 This is a step by step process to recreate the process undertaken by me to build and train a covolutional neural network to identify individual Banded Penguins from photos. A large source of inspiration was the work done by Olga Moskvyak (https://github.com/olgamoskvyak) on Manta Rays. This approah is generalisable to any and all open-set re-identification tasks, not just the species studied by Olga and I. For the rest of this tutorial I will assume you are working with a speices of Banded penguin. 
 
 **Pre-requesits**
+
 You will need a database of Known Individuals, and photos of them across a wide variety of poses and environments. There is no rule about how many identities and how many photos is necessary, however the more the bettter. I utilised easy access to a known popualtion of Humboldt penguins at ZSL London Zoo to build a dataabse of 2219 images of 81 individuals. This database should exist as a directory of IDs, each ID contianing the images fo that individual.
 
 ENV file? 
 
 **Occluding Tags**
+
 My Zoo housed subjects had identifying wing bands, for which I build a duplicate second dataset that had these tags covered by a black square in order to focus the model on the features of the penguin and help it transfer to applications on wild popualtions. 
 
 tag_occluder.py - Runs a GUI that displays one image at time from the source directory. Shift and Option keys toggle the size of the occluding square. Each photo is duplicated and stored in the destination directory in the same structure. The Progress and metadata is saved in a .csv file so that the (often tedious) process is saved, the script can be quit and returned to and it will resume progress. 
 
 **Histogram Normalisation**
+
 Pre-processing the images with Histogram Normalisation often makes the image dataset reduces the variability of image characteristics and increases the contrast. This has often been found to assist computer vision models, however I found that it had no effect on model perfomance for my identification models. 
 
 database_preprocess - Duplicates the content and structure of a database and applies histogram normalsiation to all images.
@@ -34,15 +37,21 @@ create_tf_data_csv.py -- Reads the image dataset and creates an unknown/known ba
 
 **Perform a model training hyper-paramater grid-search**
 
-We can now train our models. The hyper-paramter grid search accepts a large number of paramter variables, but takes a simple approach of training each combination to completion. The variables that can be explored are: 
+We can now train our models. The hyper-paramter grid search accepts a large number of paramter variables, but takes a simple approach of training each combination to completion. The variables that can be explored and the best values I found were: 
 
-| Parameter      | Function                                  |
-|----------------|-------------------------------------------|
-| LEARNING_RATE  | Head-only Learning rate                   |
-| LEARNING_RATE_2| Head and Backbone Learning rate           |
-| MARGIN         | Triplet Loss Margin                       |
-| WARMUP_LENGTH  | Epochs run before unfreezing the Backbone |
-| DROPOUT_RATE   | Dropout Rate for the Head                 |
+| Parameter      | Function                                  | Best Values |
+|----------------|-------------------------------------------|-------------|
+| LEARNING_RATE  | Head-only Learning rate                   |1e-04        |
+| LEARNING_RATE_2| Head and Backbone Learning rate           |2e-05        |
+| MARGIN         | Triplet Loss Margin                       |0.1, 0.5     |
+| WARMUP_LENGTH  | Epochs run before unfreezing the Backbone |5, 15        |
+| DROPOUT_RATE   | Dropout Rate for the Head                 |0, 0.1       |
+
+train_gridsearch.py -- Runs a paramter gridsearch of training variables. Produces model weights from each combination. Prints progress as it runs. Outputs a csv file of model performances at the the ability to match test images to known "gallery" images in K guessses (gallery_topN_accuracies[k]), and the ability to match pairs of images of unknwon identities (mAP_at_1).
+
+** How to... **
+
+
 
 
 
