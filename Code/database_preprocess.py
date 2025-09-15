@@ -35,8 +35,7 @@ def process_images(source_dir, destination_dir, valid_extensions={'.jpg', '.jpeg
             print(f"Processed and saved: {dest_path}")
 
 if __name__ == "__main__":
-    # 🛠 Replace these paths with your actual source and output locations
-    source_directory = "individual_7"
-    output_directory = "histogram_equalised_individual_7"
+    source_directory = "Penguin_Photos/indiviuals"
+    output_directory = "Penguin_Photos/Histogram_normalised_individuals"
 
     process_images(source_directory, output_directory)
