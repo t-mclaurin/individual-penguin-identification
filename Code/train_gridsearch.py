@@ -25,8 +25,8 @@ INPUT_SHAPE = (224, 224, 3)
 EMBEDDING_DIM = 512
 BATCH_SIZE = 32
 EPOCHS = 300
-CHECKPOINT_DIR = "3rd_checkpoints_search"
-DATA_DIR = "../mclaurin/individuals_8_tagless"
+CHECKPOINT_DIR = "Penguin_Photos/checkpoints"
+DATA_DIR = "Penguin_Photos/individuals"
 
 EARLY_STOPPING_PATIENCE = 10    # e.g. stop if no improvement in 10 epochs
 EARLY_STOPPING_DELTA = 1e-6    # e.g. require at least this much improvement
@@ -78,8 +78,7 @@ with open(log_filename, "w", newline="") as csvfile:
         "MARGIN",
         "WARMUP_LENGTH",
         "DROPOUT_RATE",
-        "maP@1",
-        "maP@5"      
+        "maP@1"    
         
     ])
 
@@ -94,7 +93,7 @@ args = parser.parse_args()
 import pandas as pd
 
 # Load records
-df = pd.read_csv("penguinID_dataset_splits_8_tagless.csv")
+df = pd.read_csv("Penguin_Photos/penguinID_dataset_splits.csv")
 
 # Get treining data
 train_df = df[
@@ -599,7 +598,6 @@ for config_id, config in enumerate(configs, start=1):
     print(f"Mean Known Distance: {mean_known_dist:.4f}")
     print(f"Mean Unknown Distance: {mean_unknown_dist:.4f}")
     print(f"Unknown-only mAP@1: {mAP_at_1*100:.2f}%")
-    print(f"Unknown-only mAP@5: {mAP_at_5*100:.2f}%")
 
     with open(log_filename, "a", newline="") as csvfile:
         writer = csv.writer(csvfile)
@@ -629,8 +627,7 @@ for config_id, config in enumerate(configs, start=1):
             MARGIN,
             WARMUP_LENGTH,
             DROPOUT_RATE,
-            mAP_at_1,
-            mAP_at_5
+            mAP_at_1
         ])
 
 
