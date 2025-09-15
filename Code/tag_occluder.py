@@ -6,11 +6,12 @@ from tkinter import Tk, Canvas, Button, NW, mainloop, PhotoImage, messagebox
 from PIL import Image, ImageTk
 
 # ---- Configuration ----
-SOURCE_DIR = '/Users/theomclaurin/Desktop/Penguin_Photos/data_7_2/test copy'
-DEST_DIR = '/Users/theomclaurin/Desktop/Penguin_Photos/data_7_2/test_tagless'
-PROGRESS_FILE = '/Users/theomclaurin/Desktop/Penguin_Photos/data_7_2/progress.csv'
+SOURCE_DIR = '/Users/theomclaurin/Desktop/Penguin_Photos/fix/tofix'
+DEST_DIR = '/Users/theomclaurin/Desktop/Penguin_Photos/fix/fixed'
+PROGRESS_FILE = '/Users/theomclaurin/Desktop/Penguin_Photos/fix/progress.csv'
 OCCLUDER_SIZE = 60  # default px size, change as needed
-LARGE_OCCLUDER_SIZE = 80 # for large occluders
+LARGE_OCCLUDER_SIZE = 90 # for large occluders
+SUPER_OCCLUDER_SIZE = 120 # for super large occluders
 SUPPORTED_FORMATS = ('.jpg', '.jpeg', '.png', '.bmp', '.tif', '.tiff')
 
 # ---- Progress Management ----
@@ -112,12 +113,17 @@ class ImageAnnotator:
         self.redraw()
 
     def on_click(self, event):
-        # Detect Shift key for larger occluder
-        is_large = (event.state & 0x0001) != 0  # Tkinter shift mask
-        if is_large:
+        # Detect Shift key for large, Shift+Control for super large occluder
+        is_shift = (event.state & 0x0001) != 0  # Shift mask
+        is_control = (event.state & 0x0004) != 0  # Control mask
+
+        if is_shift and is_control:
+            self.occluder_size = SUPER_OCCLUDER_SIZE
+        elif is_shift:
             self.occluder_size = LARGE_OCCLUDER_SIZE
         else:
             self.occluder_size = OCCLUDER_SIZE
+
         if 0 <= event.x < self.display_w and 0 <= event.y < self.display_h:
             self.occluder = (event.x, event.y)
             self.redraw()
