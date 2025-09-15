@@ -36,6 +36,28 @@ My Zoo housed subjects had identifying wing bands, for which I build a duplicate
 
 tag_occluder.py - Runs a GUI that displays one image at time from the source directory. Shift and Option keys toggle the size of the occluding square. Each photo is duplicated and stored in the destination directory in the same structure. The Progress and metadata is saved in a csv file so that the (often tedious) process is saved, the script can be quit and returned to and it will resume progress. 
 
+**Example Images**
+
+This table contains Mega-detected, cropped, tag-ocluded, images of one identity; showcasing the varation in pose, background and source that we want the model to become robust to. 
+<table>
+  <tr>
+    <td><img src="images/Ron Burgundy5.jpg" width="150"></td>
+    <td><img src="images/Ron Burgundy1.jpg" width="150"></td>
+    <td><img src="images/IMG_3207.jpeg" width="150"></td>
+  </tr>
+  <tr>
+    <td><img src="images/IMGP0698.JPG" width="150"></td>
+    <td><img src="images/Ron Burgundy16.jpg" width="150"></td>
+    <td><img src="images/IMG_3427.jpeg" width="150"></td>
+  </tr>
+  <tr>
+    <td><img src="images/IMG_3234.jpeg" width="150"></td>
+    <td><img src="images/IMG_1953_box2.jpg" width="150"></td>
+    <td><img src="images/IMG_3216.jpeg" width="150"></td>
+  </tr>
+</table>
+
+
 **Histogram Normalisation**
 
 Pre-processing the images with Histogram Normalisation often makes the image dataset reduces the variability of image characteristics and increases the contrast. This has often been found to assist computer vision models, however I found that it had no effect on model performance for my identification models. 
