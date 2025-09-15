@@ -5,10 +5,6 @@ from typing import Tuple
 from PIL import Image
 
 def _bbox_to_pixels(bbox, img_w: int, img_h: int) -> Tuple[int, int, int, int]:
-    """
-    Convert MegaDetector bbox [x, y, w, h] in relative coords (0-1) to
-    absolute pixel box (left, top, right, bottom), clamped to image bounds.
-    """
     x, y, w, h = bbox
     left = max(0, int(round(x * img_w)))
     top = max(0, int(round(y * img_h)))
@@ -30,14 +26,7 @@ def crop_images_from_megadetector(
     min_width: int = 500,
     min_height: int = 500
 ):
-    """
-    Read a MegaDetector JSON file and crop detections from images.
-
-    Filters:
-    - Only detections with category == target_category (default: "1")
-    - Only detections with conf >= confidence_threshold (default: 0.5)
-    - Only detections whose pixel width >= min_width and height >= min_height (defaults: 500x500)
-    """
+    
     with open(json_path, "r") as f:
         data = json.load(f)
 
@@ -55,20 +44,18 @@ def crop_images_from_megadetector(
 
         src_path = os.path.join(input_root, rel_path)
         if not os.path.exists(src_path):
-            # Try a fallback if paths in JSON are basenames only
+            
             basename = os.path.basename(rel_path)
             src_path_alt = os.path.join(input_root, basename)
             src_path = src_path if os.path.exists(src_path) else src_path_alt
 
         if not os.path.exists(src_path):
-            # Can't find image, skip
             continue
 
         dets = img_entry.get("detections") or img_entry.get("objects") or []
         if not dets:
             continue
 
-        # Prepare output dir mirroring relative path (without filename)
         rel_dir = os.path.dirname(rel_path)
         out_dir = os.path.join(output_root, rel_dir)
         os.makedirs(out_dir, exist_ok=True)
@@ -96,7 +83,7 @@ def crop_images_from_megadetector(
                     width_px = max(0, right - left)
                     height_px = max(0, bottom - top)
 
-                    # Size filter
+                  
                     if width_px < min_width or height_px < min_height:
                         skipped_small += 1
                         continue
@@ -107,12 +94,12 @@ def crop_images_from_megadetector(
                     ext = os.path.splitext(src_path)[1].lower() or ".jpg"
                     out_name = f"{base}_det{idx}_x{left}_y{top}_w{width_px}_h{height_px}{ext}"
                     out_path = os.path.join(out_dir, out_name)
-                    # Ensure parent exists (should already due to os.makedirs above)
+                   
                     crop.save(out_path)
                     crop_count += 1
                     idx += 1
         except Exception as e:
-            # If an image fails to open or process, continue gracefully
+           
             print(f"Warning: failed processing {src_path}: {e}")
 
     print(f"Saved crops: {crop_count}")
