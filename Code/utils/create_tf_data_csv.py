@@ -2,8 +2,8 @@ import os
 import csv
 import random
 
-data_dir = "../mclaurin/individuals_8_tagless"
-output_csv = "penguinID_dataset_splits_8_tagless.csv"
+data_dir = "Penguin_Photos/individuals"
+output_csv = "Penguin_Photos/penguinID_dataset_splits.csv"
 test_ratio = 0.2
 random.seed(42)
 
@@ -22,7 +22,6 @@ for class_name in os.listdir(data_dir):
     full_paths = [os.path.join(class_name, f) for f in images]
 
     if len(images) <= 5:
-        # Put low-sample individuals entirely in validation as unknown
         for f in full_paths:
             rows.append({
                 "filename": f,
@@ -31,7 +30,6 @@ for class_name in os.listdir(data_dir):
                 "known_status": "unknown"
             })
     else:
-        # Enough images to split into train/val
         random.shuffle(full_paths)
         split_idx = int(len(images) * test_ratio)
         val_imgs = full_paths[:split_idx]
@@ -53,7 +51,6 @@ for class_name in os.listdir(data_dir):
                 "known_status": "known"
             })
 
-# Save CSV
 with open(output_csv, "w", newline="") as f:
     writer = csv.DictWriter(f, fieldnames=rows[0].keys())
     writer.writeheader()
